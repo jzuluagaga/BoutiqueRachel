@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Inventario - Boutique Rachel</title>
+    <link rel="icon"
+          type="image/png"
+          href="/images/favicon.png">
+
+    <link rel="stylesheet" th:href="@{/css/styles.css}">
+</head>
+<body>
+<div th:replace="fragmentos :: header"></div>
+
+<main class="main-content">
+    <div class="page-header">
+        <h1>Gestión de Inventario</h1>
+        <button class="btn-primary">Nuevo Producto</button>
+    </div>
+
+    <div class="inventory-summary">
+        <div class="summary-card">
+            <h3>Total Productos</h3>
+            <span th:text="${totalProductos}">1,247</span>
+        </div>
+        <div class="summary-card alert">
+            <h3>Stock Bajo</h3>
+            <span th:text="${bajosStock}">23</span>
+        </div>
+        <div class="summary-card">
+            <h3>Valor Inventario</h3>
+            <span>$<span th:text="${valorInventario}">45,230,000</span></span>
+        </div>
+    </div>
+
+    <div class="table-container">
+        <table class="table">
+            <thead>
+            <tr>
+                <th>ID</th>
+                <th>Nombre</th>
+                <th>Categoría</th>
+                <th>Precio</th>
+                <th>Stock</th>
+                <th>Estado</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="p : ${productos}">
+                <td th:text="${p.id}">001</td>
+                <td th:text="${p.nombre}">Blusa Elegante</td>
+                <td th:text="${p.categoria}">Blusas</td>
+                <td>$<span th:text="${p.precio}">89,900</span></td>
+                <td th:text="${p.stock}" th:class="${p.stock < 10} ? 'stock-low' : 'stock-normal'">25</td>
+                <td>
+                    <span th:if="${p.stock > 10}" class="status-badge success">Disponible</span>
+                    <span th:if="${p.stock <= 10 and p.stock > 0}" class="status-badge warning">Stock Bajo</span>
+                    <span th:if="${p.stock == 0}" class="status-badge danger">Agotado</span>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</main>
+
+<div th:replace="fragmentos :: footer"></div>
+</body>
+</html>
+

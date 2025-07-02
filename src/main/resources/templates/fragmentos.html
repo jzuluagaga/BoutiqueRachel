@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tienda Online - Boutique Rachel</title>
+    <img src="/images/logo.png"
+         alt="Rachel"
+         class="shop-logo-img"/>
+
+    <link rel="stylesheet" th:href="@{/css/styles.css}">
+</head>
+<body class="shop-body">
+<!-- Header de la tienda -->
+<header class="shop-header">
+    <div class="shop-nav">
+        <div class="shop-logo">
+            <img src="/images/logo.png"
+                 alt="Rachel"
+                 class="shop-logo-img"/>
+
+            <span class="shop-tagline">Moda Femenina Colombiana</span>
+        </div>
+
+        <nav class="shop-menu">
+            <a th:href="@{/tienda}">Inicio</a>
+            <a th:href="@{/tienda/categoria/blusas}">Blusas</a>
+            <a th:href="@{/tienda/categoria/vestidos}">Vestidos</a>
+            <a th:href="@{/tienda/categoria/pantalones}">Pantalones</a>
+            <a th:href="@{/tienda/categoria/accesorios}">Accesorios</a>
+            <a th:href="@{/tienda/ofertas}" class="ofertas-link">Ofertas</a>
+        </nav>
+
+        <div class="shop-actions">
+            <div class="search-shop">
+                <input type="text" placeholder="Buscar productos...">
+                <button class="search-btn">🔍</button>
+            </div>
+            <div class="cart-icon">
+                🛒 <span class="cart-count" th:text="${carritoItems}">3</span>
+            </div>
+            <a th:href="@{/login}" class="login-link">Ingresar</a>
+        </div>
+    </div>
+</header>
+
+<!-- Banner principal -->
+<section class="hero-banner">
+    <div class="hero-content">
+        <h1>Nueva Colección 2024</h1>
+        <p>Descubre las últimas tendencias en moda femenina</p>
+        <p class="hero-subtitle">Más de 20 años vistiendo a la mujer colombiana</p>
+        <button class="btn-hero">Ver Colección</button>
+    </div>
+    <div class="hero-image">
+        <div class="hero-placeholder">
+            <span>Imagen de la nueva colección</span>
+        </div>
+    </div>
+</section>
+
+<!-- Categorías destacadas -->
+<section class="featured-categories">
+    <div class="container">
+        <h2>Categorías</h2>
+        <div class="categories-grid">
+            <div class="category-card" th:each="categoria : ${categorias}">
+                <div class="category-image">
+                    <img th:src="@{'/images/categorias/' + ${categoria.imagen}}"
+                         th:alt="${categoria.nombre}">
+                </div>
+                <div class="category-info">
+                    <h3 th:text="${categoria.nombre}">Blusas</h3>
+                    <p th:text="${categoria.descripcion}">Elegantes y cómodas</p>
+                    <span class="product-count" th:text="${categoria.cantidad} + ' productos'">45 productos</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Productos destacados -->
+<section class="featured-products">
+    <div class="container">
+        <h2>Productos Destacados</h2>
+        <div class="products-grid">
+            <div class="product-card" th:each="producto : ${productosDestacados}">
+                <div class="product-image">
+                    <img th:src="@{'/images/productos/' + ${producto.imagen}}"
+                         th:alt="${producto.nombre}">
+                    <div th:if="${producto.descuento > 0}" class="discount-badge">
+                        -<span th:text="${producto.descuento}">20</span>%
+                    </div>
+                    <div th:if="${producto.nuevo}" class="new-badge">Nuevo</div>
+                    <div class="product-overlay">
+                        <button class="quick-view-btn">Vista Rápida</button>
+                        <button class="add-to-cart-btn">Agregar al Carrito</button>
+                    </div>
+                </div>
+                <div class="product-info">
+                    <h3 th:text="${producto.nombre}">Blusa Elegante Rosa</h3>
+                    <p class="product-category" th:text="${producto.categoria}">Blusas</p>
+                    <div class="product-rating">
+                        <span class="stars">★★★★★</span>
+                        <span class="rating-count">(<span th:text="${producto.reviews}">24</span>)</span>
+                    </div>
+                    <div class="product-price">
+                            <span th:if="${producto.descuento > 0}" class="price-original">
+                                $<span th:text="${producto.precioOriginal}">120,000</span>
+                            </span>
+                        <span class="price-current">
+                                $<span th:text="${producto.precio}">96,000</span>
+                            </span>
+                    </div>
+                    <div class="product-colors">
+                            <span class="color-option" th:each="color : ${producto.colores}"
+                                  th:style="'background-color: ' + ${color}"></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Ofertas especiales -->
+<section class="special-offers">
+    <div class="container">
+        <div class="offer-banner">
+            <div class="offer-content">
+                <h2>¡Ofertas Especiales!</h2>
+                <p>Hasta 50% de descuento en productos seleccionados</p>
+                <div class="offer-timer">
+                    <span>Termina en: </span>
+                    <div class="countdown">
+                        <span class="time-unit">2<small>d</small></span>
+                        <span class="time-unit">14<small>h</small></span>
+                        <span class="time-unit">32<small>m</small></span>
+                    </div>
+                </div>
+                <button class="btn-offer">Ver Ofertas</button>
+            </div>
+            <div class="offer-products">
+                <div class="mini-product" th:each="oferta : ${ofertas}">
+                    <img th:src="@{'/images/productos/' + ${oferta.imagen}}"
+                         th:alt="${oferta.nombre}">
+                    <div class="mini-product-info">
+                        <h4 th:text="${oferta.nombre}">Vestido Casual</h4>
+                        <div class="mini-price">
+                            <span class="price-before">$<span th:text="${oferta.precioAntes}">150,000</span></span>
+                            <span class="price-now">$<span th:text="${oferta.precioAhora}">75,000</span></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Testimonios -->
+<section class="testimonials">
+    <div class="container">
+        <h2>Lo que dicen nuestras clientas</h2>
+        <div class="testimonials-grid">
+            <div class="testimonial-card" th:each="testimonio : ${testimonios}">
+                <div class="testimonial-content">
+                    <div class="stars">★★★★★</div>
+                    <p th:text="${testimonio.comentario}">
+                        "Excelente calidad y diseños únicos. Siempre encuentro algo perfecto para cada ocasión."
+                    </p>
+                </div>
+                <div class="testimonial-author">
+                    <img th:src="@{'/images/clientes/' + ${testimonio.foto}}"
+                         th:alt="${testimonio.nombre}">
+                    <div class="author-info">
+                        <h4 th:text="${testimonio.nombre}">María González</h4>
+                        <span th:text="${testimonio.ciudad}">Bogotá</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Newsletter -->
+<section class="newsletter">
+    <div class="container">
+        <div class="newsletter-content">
+            <h2>Mantente al día con Rachel</h2>
+            <p>Recibe las últimas noticias sobre nuevas colecciones y ofertas exclusivas</p>
+            <form th:action="@{/newsletter}" method="post" class="newsletter-form">
+                <input type="email" th:field="*{email}" placeholder="Tu email" required>
+                <button type="submit" class="btn-newsletter">Suscribirse</button>
+            </form>
+            <p class="newsletter-privacy">
+                Al suscribirte aceptas recibir emails promocionales. Puedes cancelar en cualquier momento.
+            </p>
+        </div>
+    </div>
+</section>
+
+<!-- Footer de la tienda -->
+<footer class="shop-footer">
+    <div class="container">
+        <div class="footer-content">
+            <div class="footer-section">
+                <img src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Rachel%20logo%20rosa-Y6nqWAAWwoGvCDRhanoWwZbdiYHue2.png" alt="Rachel" class="footer-logo">
+                <p>Más de 20 años diseñando y confeccionando ropa femenina de alta calidad en Colombia.</p>
+                <div class="social-links">
+                    <a href="#" class="social-link">📘</a>
+                    <a href="#" class="social-link">📷</a>
+                    <a href="#" class="social-link">🐦</a>
+                    <a href="#" class="social-link">📌</a>
+                </div>
+            </div>
+
+            <div class="footer-section">
+                <h3>Categorías</h3>
+                <ul>
+                    <li><a th:href="@{/tienda/categoria/blusas}">Blusas</a></li>
+                    <li><a th:href="@{/tienda/categoria/vestidos}">Vestidos</a></li>
+                    <li><a th:href="@{/tienda/categoria/pantalones}">Pantalones</a></li>
+                    <li><a th:href="@{/tienda/categoria/accesorios}">Accesorios</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-section">
+                <h3>Ayuda</h3>
+                <ul>
+                    <li><a th:href="@{/ayuda/envios}">Envíos</a></li>
+                    <li><a th:href="@{/ayuda/devoluciones}">Devoluciones</a></li>
+                    <li><a th:href="@{/ayuda/tallas}">Guía de Tallas</a></li>
+                    <li><a th:href="@{/ayuda/contacto}">Contacto</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-section">
+                <h3>Contacto</h3>
+                <div class="contact-info">
+                    <p>📍 Bogotá, Colombia</p>
+                    <p>📞 +57 (1) 234-5678</p>
+                    <p>✉️ info@boutiquerachel.com</p>
+                    <p>🕒 Lun - Sáb: 9:00 AM - 7:00 PM</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="footer-bottom">
+            <p>&copy; 2024 Boutique Rachel. Todos los derechos reservados.</p>
+            <div class="footer-links">
+                <a th:href="@{/privacidad}">Política de Privacidad</a>
+                <a th:href="@{/terminos}">Términos y Condiciones</a>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- Carrito flotante -->
+<div class="floating-cart" th:if="${carritoItems > 0}">
+    <div class="cart-summary">
+        <span th:text="${carritoItems} + ' productos'">3 productos</span>
+        <span class="cart-total">$<span th:text="${carritoTotal}">287,000</span></span>
+    </div>
+    <button class="view-cart-btn">Ver Carrito</button>
+</div>
+</body>
+</html>
+

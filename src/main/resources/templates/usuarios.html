@@ -1,0 +1,116 @@
+
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Usuarios - Boutique Rachel</title>
+    <link rel="icon"
+          type="image/png"
+          href="/images/favicon.png">
+
+    <link rel="stylesheet" th:href="@{/css/styles.css}">
+</head>
+<body>
+<div th:replace="fragmentos :: header"></div>
+
+<main class="main-content">
+    <div class="page-header">
+        <h1>Gestión de Usuarios</h1>
+        <button class="btn-primary">Nuevo Usuario</button>
+    </div>
+
+    <div class="users-stats">
+        <div class="card">
+            <h3>Total Usuarios</h3>
+            <div class="card-value"><span th:text="${totalUsuarios}">5</span></div>
+        </div>
+        <div class="card">
+            <h3>Usuarios Activos</h3>
+            <div class="card-value"><span th:text="${usuariosActivos}">4</span></div>
+        </div>
+        <div class="card">
+            <h3>En Línea</h3>
+            <div class="card-value"><span th:text="${usuariosOnline}">0</span></div>
+        </div>
+    </div>
+
+    <div class="table-container">
+        <table class="table">
+            <thead>
+            <tr>
+                <th>ID</th>
+                <th>Nombre completo</th>
+                <th>Email</th>
+                <th>Documento</th>
+                <th>Teléfono</th>
+                <th>Estado</th>
+                <th>Creado el</th>
+                <th>Acciones</th>
+            </tr>
+            </thead>
+            <tbody>
+            <!-- Si no hay usuarios, mostrar mensaje -->
+            <tr th:if="${#lists.isEmpty(usuarios)}">
+                <td colspan="8" style="text-align: center; padding: 20px;">
+                    No hay usuarios registrados
+                </td>
+            </tr>
+
+            <!-- Mostrar usuarios -->
+            <tr th:each="u : ${usuarios}">
+                <td th:text="${u.usuId}">1</td>
+                <td th:text="${u.usuNombre} + ' ' + ${u.usuApellido}">Rachel Boutique</td>
+                <td th:text="${u.usuEmail}">admin@boutique.com</td>
+                <td th:text="${u.usuTipoDocumento} + ' ' + ${u.usuNumeroDocumento}">CC 1234567890</td>
+                <td th:text="${u.usuTelefono}">3001234567</td>
+                <td>
+                    <span th:if="${u.usuEstado}"
+                          class="status-badge status-active">Activo</span>
+                    <span th:unless="${u.usuEstado}"
+                          class="status-badge status-inactive">Inactivo</span>
+                </td>
+                <td th:text="${#temporals.format(u.usuFechaCreacion, 'dd/MM/yyyy HH:mm')}">
+                    26/06/2025 20:30
+                </td>
+                <td>
+                    <button class="btn-secondary btn-small">Editar</button>
+                    <button th:if="${u.usuEstado}"
+                            class="btn-danger btn-small">Desactivar</button>
+                    <button th:unless="${u.usuEstado}"
+                            class="btn-success btn-small">Activar</button>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div class="roles-info">
+        <h2>Roles del Sistema</h2>
+        <div class="roles-grid">
+            <div class="role-card">
+                <h3>Administrador</h3>
+                <p>Acceso completo a todos los módulos y configuraciones del sistema.</p>
+                <div class="role-count">1 usuario</div>
+            </div>
+            <div class="role-card">
+                <h3>Vendedor</h3>
+                <p>Acceso al módulo de facturación electrónica y gestión de ventas.</p>
+                <div class="role-count">1 usuario</div>
+            </div>
+            <div class="role-card">
+                <h3>Inventarista</h3>
+                <p>Acceso al módulo de gestión de inventario y códigos de barras.</p>
+                <div class="role-count">1 usuario</div>
+            </div>
+            <div class="role-card">
+                <h3>Cliente</h3>
+                <p>Acceso al módulo de e-commerce y seguimiento de pedidos.</p>
+                <div class="role-count">2 usuarios</div>
+            </div>
+        </div>
+    </div>
+</main>
+
+<div th:replace="fragmentos :: footer"></div>
+

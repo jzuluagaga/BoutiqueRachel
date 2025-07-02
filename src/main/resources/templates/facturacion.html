@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Facturación - Boutique Rachel</title>
+    <link rel="icon" type="image/png" href="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Rachel%20Favicon-l8Hc7jDO5v0Ki61Szy5OmlyRnS3HO1.png">
+    <link rel="stylesheet" th:href="@{/css/styles.css}">
+</head>
+<body>
+<div th:replace="fragmentos :: header"></div>
+
+<main class="main-content">
+    <div class="page-header">
+        <h1>Facturación Electrónica</h1>
+    </div>
+
+    <div class="billing-stats">
+        <div class="card">
+            <h3>Facturas Hoy</h3>
+            <div class="card-value"><span th:text="${facturasHoy}">23</span></div>
+        </div>
+        <div class="card">
+            <h3>Ventas del Día</h3>
+            <div class="card-value">$<span th:text="${ventasHoy}">2,450,000</span></div>
+        </div>
+        <div class="card">
+            <h3>Pendientes</h3>
+            <div class="card-value"><span th:text="${facturasPendientes}">5</span></div>
+        </div>
+    </div>
+
+    <div class="billing-form">
+        <h2>Nueva Factura</h2>
+        + <form action="#" method="post" class="form">
+            <div class="form-row">
+                <div class="form-group">
+                    <label>Cliente</label>
+                    <input type="text" name="cliente" placeholder="Nombre del cliente" required>
+                </div>
+                <div class="form-group">
+                    <label>Documento</label>
+                    <input type="text" name="documento" placeholder="Cédula o NIT">
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group">
+                    <label>Fecha</label>
+                    <input type="date" name="fecha" placeholder="Fecha" >
+                </div>
+                <div class="form-group">
+                    <label for="metodoPago">Método de Pago</label>
+                    <select id="metodoPago" name="metodoPago" required>
+                        <option value="">Seleccionar</option>
+                        <option value="efectivo">Efectivo</option>
+                        <option value="tarjeta">Tarjeta</option>
+                        <option value="transferencia">Transferencia</option>
+                    </select>
+                </div>
+
+            </div>
+            <button type="submit" class="btn-primary">Generar Factura</button>
+        </form>
+    </div>
+
+    <div class="recent-invoices">
+        <h2>Facturas Recientes</h2>
+        <div class="table-container">
+            <table class="table">
+                <thead>
+                <tr>
+                    <th>Número</th>
+                    <th>Cliente</th>
+                    <th>Fecha</th>
+                    <th>Total</th>
+                    <th>Estado</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="f : ${facturasRecientes}">
+                    <td th:text="${f.numero}">FAC-001</td>
+                    <td th:text="${f.cliente}">María García</td>
+                    <td th:text="${f.fecha}">15/12/2024</td>
+                    <td>$<span th:text="${f.total}">156,900</span></td>
+                    <td>
+                                <span th:text="${f.estado}"
+                                      th:class="'status-badge ' + ${f.estado}">Pagada</span>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</main>
+
+<div th:replace="fragmentos :: footer"></div>
+</body>
+</html>
+

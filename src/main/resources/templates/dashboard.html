@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - Boutique Rachel</title>
+    <link rel="icon"
+          type="image/png"
+          href="/images/favicon.png">
+
+    <link rel="stylesheet" th:href="@{/css/styles.css}">
+</head>
+<body>
+<div th:replace="fragmentos :: header"></div>
+
+<main class="main-content">
+    <div class="page-header">
+        <h1>Bienvenida, <span th:text="${usuario}">Administradora</span></h1>
+        <p>Panel de control - Boutique Rachel</p>
+    </div>
+
+    <div class="dashboard-grid">
+        <div class="card">
+            <h3>Ventas del Día</h3>
+            <div class="card-value">$<span th:text="${totalVentas}">2,450,000</span></div>
+            <p class="card-change positive">+12% vs ayer</p>
+        </div>
+
+        <div class="card">
+            <h3>Productos en Stock</h3>
+            <div class="card-value"><span th:text="${totalProductos}">1,247</span></div>
+            <p class="card-change neutral">productos disponibles</p>
+        </div>
+
+        <div class="card alert">
+            <h3>Stock Bajo</h3>
+            <div class="card-value"><span th:text="${bajosStock}">23</span></div>
+            <p class="card-change negative">productos requieren reabastecimiento</p>
+        </div>
+
+        <div class="card">
+            <h3>Pedidos Online</h3>
+            <div class="card-value"><span th:text="${pedidosOnline}">89</span></div>
+            <p class="card-change positive">+7 nuevos hoy</p>
+        </div>
+    </div>
+
+    <div class="recent-activity">
+        <h2>Actividad Reciente</h2>
+        <div class="activity-list">
+            <div class="activity-item">
+                <span class="activity-time">10:30 AM</span>
+                <span class="activity-desc">Nueva venta por $156,900</span>
+            </div>
+            <div class="activity-item">
+                <span class="activity-time">09:45 AM</span>
+                <span class="activity-desc">Producto "Blusa Elegante" con stock bajo</span>
+            </div>
+            <div class="activity-item">
+                <span class="activity-time">09:15 AM</span>
+                <span class="activity-desc">Nuevo pedido online #PED-001</span>
+            </div>
+        </div>
+    </div>
+</main>
+
+<div th:replace="fragmentos :: footer"></div>
+</body>
+</html>
+

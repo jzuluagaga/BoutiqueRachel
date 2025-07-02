@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>E-commerce - Boutique Rachel</title>
+    <link rel="icon"
+          type="image/png"
+          href="/images/favicon.png">
+
+    <link rel="stylesheet" th:href="@{/css/styles.css}">
+</head>
+<body>
+<div th:replace="fragmentos :: header"></div>
+
+<main class="main-content">
+    <div class="page-header">
+        <h1>Catálogo E-commerce</h1>
+        <button class="btn-primary">Publicar Producto</button>
+    </div>
+
+    <div class="ecommerce-stats">
+        <div class="card">
+            <h3>Productos Online</h3>
+            <div class="card-value"><span th:text="${productosOnline}">156</span></div>
+        </div>
+        <div class="card">
+            <h3>Pedidos Hoy</h3>
+            <div class="card-value"><span th:text="${pedidosHoy}">12</span></div>
+        </div>
+        <div class="card">
+            <h3>Visitas</h3>
+            <div class="card-value"><span th:text="${visitasHoy}">1,234</span></div>
+        </div>
+    </div>
+
+    <div class="catalog-grid">
+        <div th:each="p : ${catalogo}" class="producto">
+            <div class="producto-image">
+                <img th:src="@{${p.imagenUrl}}" alt="Producto" th:alt="${p.nombre}">
+                <div class="producto-status" th:if="${p.destacado}">Destacado</div>
+            </div>
+            <div class="producto-info">
+                <h3 th:text="${p.nombre}">Vestido Casual</h3>
+                <p class="producto-categoria" th:text="${p.categoria}">Vestidos</p>
+                <div class="producto-price">
+                    <span class="price-current">$<span th:text="${p.precio}">120,000</span></span>
+                    <span th:if="${p.descuento > 0}" class="price-original">
+                            $<span th:text="${p.precioOriginal}">150,000</span>
+                        </span>
+                </div>
+                <div class="producto-stats">
+                    <span>Vistas: <span th:text="${p.vistas}">234</span></span>
+                    <span>Ventas: <span th:text="${p.ventas}">12</span></span>
+                </div>
+                <div class="producto-actions">
+                    <button class="btn-secondary">Editar</button>
+                    <button class="btn-primary">Ver Online</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="recent-orders">
+        <h2>Pedidos Recientes</h2>
+        <div class="table-container">
+            <table class="table">
+                <thead>
+                <tr>
+                    <th>Pedido</th>
+                    <th>Cliente</th>
+                    <th>Productos</th>
+                    <th>Total</th>
+                    <th>Estado</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="pedido : ${pedidosRecientes}">
+                    <td th:text="${pedido.numero}">PED-001</td>
+                    <td th:text="${pedido.cliente}">Ana López</td>
+                    <td th:text="${pedido.cantidadItems}">3 productos</td>
+                    <td>$<span th:text="${pedido.total}">267,700</span></td>
+                    <td>
+                                <span th:text="${pedido.estado}"
+                                      th:class="'status-badge ' + ${pedido.estado}">Confirmado</span>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</main>
+
+<div th:replace="fragmentos :: footer"></div>
+</body>
+</html>
+
